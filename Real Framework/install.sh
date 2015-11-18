@@ -60,10 +60,19 @@ do
 
     if [ ! -d "${GLOBAL_DEVELOPER_PATH}/${IOS_SPECIFICATIONS_PATH}" ] || [ ! -d "${GLOBAL_DEVELOPER_PATH}/${SIM_SPECIFICATIONS_PATH}" ]
     then
-        echo "Could not find Xcode files in \"$GLOBAL_DEVELOPER_PATH\". Please make sure you typed it correctly."
-        echo "You should see the path \"$IOS_SPECIFICATIONS_PATH\" inside of it."
+        echo "Could not find Xcode files in \"$GLOBAL_DEVELOPER_PATH\". Do you want to install it?"
+
+        read -p "continue [y/N]: " answer
         echo
-        GLOBAL_DEVELOPER_PATH=
+        if [ "$answer" != "Y" ] && [ "$answer" != "y" ]; then
+            echo
+            echo "[ Cancelled ]"
+            echo
+            exit 1
+        fi
+
+        sudo cp -r xcode6Data/SpecificationsiOS "${GLOBAL_DEVELOPER_PATH}/${IOS_SPECIFICATIONS_PATH}"
+        sudo cp -r xcode6Data/SpecificationsSimulator "${GLOBAL_DEVELOPER_PATH}/${SIM_SPECIFICATIONS_PATH}"
     fi
 done
 
